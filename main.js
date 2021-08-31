@@ -124,13 +124,6 @@ spriteTColor = [1, 6, 7, 3, 5, 4, 2];     // スプライトIDに紐づけされ
 image_cacheCounter = 0;     // イメージキャッシュ登録のカウンター
 image_cacheList = [];       // イメージキャッシュリスト
 
-// キーの登録
-input = new JsInput();
-input.add( input.vk_left  );  // 用途：移動　左
-input.add( input.vk_right );  // 用途：移動　右
-input.add( input.vk_down);    // 用途：移動　下
-input.add( input.vk_up  );    // 用途：回転
-input.add( input.vk_space);   // 用途：回転・ゲーム開始
 
 // 乱数
 function getRandom(max) { return Math.floor(Math.random() * Math.floor(max)); }
@@ -288,6 +281,15 @@ MySceneGame = cc.Scene.extend({
     this._super();
     var x,y;
     var size = cc.director.getWinSize();
+
+    // キーの登録
+    input = new JsInput();
+    input.add( input.vk_left  );  // 用途：移動　左
+    input.add( input.vk_right );  // 用途：移動　右
+    input.add( input.vk_down);    // 用途：移動　下
+    input.add( input.vk_up  );    // 用途：回転
+    input.add( input.vk_space);   // 用途：回転・ゲーム開始
+
     this.mainLayer = new MainLayer();
     this.addChild(this.mainLayer);
     cc.eventManager.addListener({
@@ -299,7 +301,6 @@ MySceneGame = cc.Scene.extend({
         input.onUp(keyCode);
       }
     }, this);
-    
     this.gameInit();
     this.scheduleUpdate();
   },
@@ -338,13 +339,6 @@ MySceneGame = cc.Scene.extend({
       }
   },
   gameMain: function() {
-      if (input.getPress(input.vk_up,   128)) this.rotationLeftRight(1);
-      if (input.getPress(input.vk_down, 128)) this.move(0, 1);
-      if (input.getPress(input.vk_left,  64)) this.move(-1, 0);
-      if (input.getPress(input.vk_right, 64)) this.move(1, 0);
-//      if (input.getPress(input.vk_space,128)) this.next();
-      if (input.getPress(input.vk_space,128)) this.rotationLeftRight(-1);
-
       // 落下処理
       tetrimino.dropCounter += tetrimino.dropSpeed;
       if (tetrimino.dropCounter >= 1){
@@ -362,6 +356,12 @@ MySceneGame = cc.Scene.extend({
           }
         }
       }
+      // 入力処理
+      if (input.getPress(input.vk_up,   128)) this.rotationLeftRight(1);
+      if (input.getPress(input.vk_down, 128)) this.move(0, 1);
+      if (input.getPress(input.vk_left,  64)) this.move(-1, 0);
+      if (input.getPress(input.vk_right, 64)) this.move(1, 0);
+      if (input.getPress(input.vk_space,128)) this.rotationLeftRight(-1);
   },
   // テトリミノを回転させる
   rotationLeftRight: function(value){
