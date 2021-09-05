@@ -10,6 +10,11 @@
  *
  */
 
+//
+// 変更点
+// 2021/9/4 関数名の変更 exec()からupdate()に名前を変更
+//
+
 // キーコード、名称、コード確認の参考サイト
 // https://web-designer.cman.jp/javascript_ref/keyboard/keycode/
 // http://www.rinneza.com/junya/tech/keyboard_name.html
@@ -39,12 +44,12 @@ window.addEventListener('load', function() {
 });
 
 function myUpdate(){
-  input.exec(); // 必ず呼び出すこと
+  input.update(); // 必ず呼び出すこと
   input.show(); // 状態を確認したいとき(デバッグ用)
   //
   // キーの判定を行う
   //
-  
+
   // クリックの判定
   if( input.getClick(input.vk_a)){
     console.log("A 1回だけ処理");
@@ -208,7 +213,7 @@ class JsInput
     this.usedTime[vKey]=0;
   }
   // メインループで毎回実行するもの
-  exec()
+  update()
   {
     // 配列を列挙する
     for(var vKey in this.keys)
